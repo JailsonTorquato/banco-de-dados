@@ -1,0 +1,146 @@
+-- Criar Banco de Dados
+CREATE DATABASE IF NOT EXISTS comercio_grande;
+USE comercio_grande;
+
+-- Tabela de clientes
+CREATE TABLE clientes (
+    id_cliente INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100),
+    telefone VARCHAR(20),
+    data_nascimento DATE
+);
+
+-- Tabela de endereços dos clientes
+CREATE TABLE enderecos_clientes (
+    id_endereco INT AUTO_INCREMENT PRIMARY KEY,
+    id_cliente INT NOT NULL,
+    cidade VARCHAR(100),
+    estado VARCHAR(2),
+    cep VARCHAR(10),
+    FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente)
+);
+
+-- Tabela de categorias de produtos
+CREATE TABLE categorias_produtos (
+    id_categoria INT AUTO_INCREMENT PRIMARY KEY,
+    nome_categoria VARCHAR(50) NOT NULL
+);
+
+-- Tabela de produtos
+CREATE TABLE produtos (
+    id_produto INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    preco DECIMAL(10,2) NOT NULL,
+    id_categoria INT,
+    FOREIGN KEY (id_categoria) REFERENCES categorias_produtos(id_categoria)
+);
+
+-- Tabela de pedidos
+CREATE TABLE pedidos (
+    id_pedido INT AUTO_INCREMENT PRIMARY KEY,
+    id_cliente INT NOT NULL,
+    data_pedido DATE NOT NULL,
+    FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente)
+);
+
+-- Tabela de itens do pedido
+CREATE TABLE itens_pedido (
+    id_item INT AUTO_INCREMENT PRIMARY KEY,
+    id_pedido INT NOT NULL,
+    id_produto INT NOT NULL,
+    quantidade INT NOT NULL,
+    preco_unitario DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (id_pedido) REFERENCES pedidos(id_pedido),
+    FOREIGN KEY (id_produto) REFERENCES produtos(id_produto)
+);
+
+-- Inserir dados nas categorias
+INSERT INTO categorias_produtos (nome_categoria) VALUES
+('Eletrônicos'),
+('Roupas'),
+('Alimentos'),
+('Móveis'),
+('Papelaria');
+
+-- Inserir dados nos produtos
+INSERT INTO produtos (nome, preco, id_categoria) VALUES
+('Notebook Dell', 4200.00, 1),
+('Smartphone Samsung', 3200.00, 1),
+('Calça Jeans', 150.00, 2),
+('Camiseta Polo', 90.00, 2),
+('Arroz 5kg', 30.00, 3),
+('Feijão 1kg', 8.00, 3),
+('Sofá 3 lugares', 2500.00, 4),
+('Mesa de jantar', 1800.00, 4),
+('Caderno universitário', 25.00, 5),
+('Caneta esferográfica', 3.50, 5);
+
+-- Inserir dados nos clientes
+INSERT INTO clientes (nome, email, telefone, data_nascimento) VALUES
+('Ana Souza', 'ana@email.com', '48999990001', '1985-06-15'),
+('Carlos Silva', 'carlos@email.com', '48999990002', '1990-09-22'),
+('Beatriz Lima', 'beatriz@email.com', '1988-12-11', '1988-12-11'),
+('Fernando Torres', 'fernando@email.com', '48999990004', '1979-03-08'),
+('Mariana Costa', 'mariana@email.com', '48999990005', '1995-04-30'),
+('Paulo Mendes', 'paulo@email.com', '48999990006', '1982-11-19'),
+('Larissa Dias', 'larissa@email.com', '48999990007', '1993-08-23'),
+('Ricardo Alves', 'ricardo@email.com', '48999990008', '1975-01-05'),
+('Juliana Prado', 'juliana@email.com', '48999990009', '1986-05-10'),
+('André Santos', 'andre@email.com', '48999990010', '1991-02-02'),
+('Tatiane Rocha', 'tatiane@email.com', '48999990011', '1994-07-16'),
+('Bruno Reis', 'bruno@email.com', '48999990012', '1980-10-25'),
+('Camila Martins', 'camila@email.com', '48999990013', '1989-11-29'),
+('Eduardo Lima', 'eduardo@email.com', '48999990014', '1997-06-18'),
+('Patrícia Gomes', 'patricia@email.com', '48999990015', '1985-04-12'),
+('Luciana Souza', 'luciana@email.com', '48999990016', '1992-09-05'),
+('Thiago Barbosa', 'thiago@email.com', '48999990017', '1987-08-08'),
+('Renata Costa', 'renata@email.com', '48999990018', '1984-01-19'),
+('Fábio Oliveira', 'fabio@email.com', '48999990019', '1978-07-30'),
+('Vanessa Freitas', 'vanessa@email.com', '48999990020', '1996-03-25');
+
+-- Inserir dados nos endereços dos clientes
+INSERT INTO enderecos_clientes (id_cliente, cidade, estado, cep) VALUES
+(1, 'Florianópolis', 'SC', '88000-000'),
+(2, 'Criciúma', 'SC', '88800-000'),
+(3, 'Blumenau', 'SC', '89000-000'),
+(4, 'Joinville', 'SC', '89200-000'),
+(5, 'Chapecó', 'SC', '89800-000'),
+(6, 'Itajaí', 'SC', '88300-000'),
+(7, 'Tubarão', 'SC', '88700-000'),
+(8, 'Balneário Camboriú', 'SC', '88330-000'),
+(9, 'São José', 'SC', '88100-000'),
+(10, 'Palhoça', 'SC', '88130-000'),
+(11, 'Curitiba', 'PR', '80000-000'),
+(12, 'Maringá', 'PR', '87000-000'),
+(13, 'Londrina', 'PR', '86000-000'),
+(14, 'Ponta Grossa', 'PR', '84000-000'),
+(15, 'Cascavel', 'PR', '85800-000'),
+(16, 'Joinville', 'SC', '89200-100'),
+(17, 'Florianópolis', 'SC', '88010-000'),
+(18, 'São Bento do Sul', 'SC', '89290-000'),
+(19, 'Jaraguá do Sul', 'SC', '89250-000'),
+(20, 'Videira', 'SC', '89560-000');
+
+-- Inserir dados nos pedidos
+INSERT INTO pedidos (id_cliente, data_pedido) VALUES
+(1, '2025-04-01'), (2, '2025-04-02'), (3, '2025-04-02'), (4, '2025-04-03'), (5, '2025-04-04'),
+(6, '2025-04-05'), (7, '2025-04-05'), (8, '2025-04-06'), (9, '2025-04-07'), (10, '2025-04-07'),
+(11, '2025-04-08'), (12, '2025-04-08'), (13, '2025-04-09'), (14, '2025-04-09'), (15, '2025-04-10'),
+(16, '2025-04-10'), (17, '2025-04-11'), (18, '2025-04-12'), (19, '2025-04-13'), (20, '2025-04-14'),
+(1, '2025-04-14'), (2, '2025-04-15'), (3, '2025-04-15'), (4, '2025-04-16'), (5, '2025-04-17'),
+(6, '2025-04-18'), (7, '2025-04-18'), (8, '2025-04-19'), (9, '2025-04-19'), (10, '2025-04-20');
+
+-- Inserir dados nos itens do pedido
+INSERT INTO itens_pedido (id_pedido, id_produto, quantidade, preco_unitario) VALUES
+(1, 1, 1, 4200.00), (1, 3, 2, 150.00), (2, 2, 1, 3200.00),
+(3, 5, 5, 30.00), (3, 6, 3, 8.00), (4, 7, 1, 2500.00),
+(5, 4, 3, 90.00), (5, 10, 5, 3.50), (6, 8, 1, 1800.00),
+(7, 9, 10, 25.00), (8, 2, 2, 3200.00), (9, 1, 1, 4200.00),
+(10, 5, 2, 30.00), (11, 6, 5, 8.00), (12, 7, 1, 2500.00),
+(13, 3, 2, 150.00), (14, 9, 4, 25.00), (15, 10, 10, 3.50),
+(16, 1, 1, 4200.00), (17, 2, 1, 3200.00), (18, 4, 3, 90.00),
+(19, 5, 5, 30.00), (20, 8, 1, 1800.00), (21, 9, 6, 25.00),
+(22, 10, 12, 3.50), (23, 3, 1, 150.00), (24, 6, 7, 8.00),
+(25, 7, 1, 2500.00), (26, 8, 2, 1800.00), (27, 5, 4, 30.00),
+(28, 9, 5, 25.00), (29, 10, 8, 3.50), (30, 1, 1, 4200.00);
