@@ -1,6 +1,6 @@
 -- Criar Banco de Dados
 CREATE DATABASE IF NOT EXISTS comercio_grande;
-USE comercio_grande;
+USE comercio;
 
 -- Tabela de clientes
 CREATE TABLE clientes (
